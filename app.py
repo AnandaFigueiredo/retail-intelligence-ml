@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "data"
 
 st.set_page_config(
-    page_title="Sales Intelligence AI",
+    page_title="Retail Intelligence ML",
     page_icon=":material/monitoring:",
     layout="wide",
     initial_sidebar_state="collapsed",
@@ -46,7 +46,7 @@ def card_metrica(titulo: str, valor: str, descricao: str) -> None:
 
 
 # O cabeçalho aparece antes da leitura das bases para resposta visual imediata.
-st.title("Sales Intelligence AI", icon=":material/monitoring:")
+st.title("Retail Intelligence ML", icon=":material/monitoring:")
 st.write(
     "Inteligência comercial para acompanhar desempenho, compreender perfis "
     "de clientes e priorizar oportunidades de recompra."
@@ -400,4 +400,4 @@ with aba_recompra:
         column_config=config_propensao,
     )
 
-st.caption("Sales Intelligence AI · Projeto de portfólio em Data Science e Engenharia de IA")
+st.caption("Retail Intelligence ML · Projeto de portfólio em Data Science e Engenharia de IA")

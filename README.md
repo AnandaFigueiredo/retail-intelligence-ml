@@ -1,105 +1,94 @@
 # Retail Intelligence ML
 
-Projeto de portfólio end-to-end que transforma transações públicas de varejo em análises comerciais, segmentos de clientes e probabilidades de recompra. O repositório combina análise exploratória de dados, preparação orientada ao negócio, análise RFM, aprendizado não supervisionado, aprendizado supervisionado e um dashboard interativo desenvolvido com Streamlit.
+> End-to-end retail analytics and machine learning project focused on customer intelligence, segmentation and repurchase prediction.
 
-**[Acesse a aplicação publicada no Streamlit](https://retail-intelligence-ml-jjpxjfr9mwegrcrxjvc3bq.streamlit.app/)**
+[![Python](https://img.shields.io/badge/Python-3.13-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![scikit-learn](https://img.shields.io/badge/scikit--learn-1.7-F7931E?logo=scikitlearn&logoColor=white)](https://scikit-learn.org/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-Live%20App-FF4B4B?logo=streamlit&logoColor=white)](https://retail-intelligence-ml-jjpxjfr9mwegrcrxjvc3bq.streamlit.app/)
 
-> Este é um projeto demonstrativo construído com dados públicos. Modelos utilizados em produção exigem adaptação aos dados, processos, objetivos, custos e requisitos de governança de cada organização.
+Projeto de portfólio que transforma transações de varejo em inteligência comercial. O trabalho cobre entendimento e preparação dos dados, análise RFM, segmentação de clientes com K-Means, previsão de recompra com Random Forest e entrega dos resultados em uma aplicação Streamlit.
 
-## Prévia do dashboard
+**Tecnologias:** Python · pandas · NumPy · scikit-learn · Jupyter · Streamlit
 
-A aplicação apresenta três áreas:
+**Destaques:** ROC-AUC de 74,5% · recall de 63,4% · 64,89% da receita concentrada no segmento VIP
 
-1. **Visão geral comercial** — faturamento, pedidos, clientes, produtos, ticket médio, evolução mensal da receita, rankings de produtos e desempenho por país.
-2. **Segmentação de clientes** — perfis do K-Means, participação na receita, comportamento RFM médio e filtros por cliente.
-3. **Propensão de recompra** — métricas da Random Forest, faixas de probabilidade, priorização de clientes e tabelas detalhadas.
+## Live Demo
 
-## Principais funcionalidades
+**[Acessar o dashboard Retail Intelligence ML](https://retail-intelligence-ml-jjpxjfr9mwegrcrxjvc3bq.streamlit.app/)**
 
-- Diagnóstico de valores ausentes, duplicatas, cancelamentos, quantidades negativas, preços zerados, movimentações de estoque e ajustes contábeis.
-- Criação de uma base comercial limpa sem descartar silenciosamente registros ambíguos.
-- Cálculo de faturamento, quantidade de pedidos, clientes, produtos e ticket médio.
-- Análises mensais, por produto, país, dia da semana e horário.
-- Construção de atributos RFM e segmentos definidos por regras de negócio.
-- Aplicação do K-Means após transformação logarítmica e padronização.
-- Formulação da recompra como um problema de classificação supervisionada em uma janela de 30 dias.
-- Comparação entre baseline da classe majoritária, regressão logística e Random Forest.
-- Exportação de bases preparadas e artefatos dos modelos para reutilização pelo dashboard.
+A aplicação reúne visão comercial, segmentação de clientes e propensão de recompra. O deploy utiliza a branch `main` e o arquivo `app.py` como ponto de entrada.
+
+## Screenshots
+
+As imagens serão adicionadas em [`docs/images/`](docs/images/). Os espaços previstos são:
+
+| Tela | Arquivo esperado |
+|---|---|
+| Visão geral do dashboard | `docs/images/dashboard-overview.png` |
+| Segmentação de clientes | `docs/images/customer-segmentation.png` |
+| Propensão de recompra | `docs/images/repurchase-propensity.png` |
+
+> Os screenshots ainda precisam ser capturados manualmente na aplicação publicada. Nenhuma imagem demonstrativa foi inventada para representar o dashboard.
+
+## Key Results
+
+### Random Forest — previsão de recompra
+
+| Métrica | Resultado |
+|---|---:|
+| Accuracy | 71,1% |
+| Precision | 56,6% |
+| Recall | 63,4% |
+| F1-score | 59,8% |
+| ROC-AUC | 74,5% |
+
+### K-Means — segmentação de clientes
+
+| Segmento | Clientes | Participação na receita |
+|---|---:|---:|
+| Alto valor / VIP | 713 | 64,89% |
+| Regulares / Intermediários | 1.166 | 23,64% |
+| Recentes / Baixo engajamento | 837 | 5,25% |
+| Inativos / Perdidos | 1.622 | 6,22% |
+
+## Key Business Insights
+
+- Aproximadamente 65% da receita está concentrada no grupo VIP.
+- A frequência de compra foi a variável mais importante para prever recompra.
+- O modelo identificou aproximadamente 63% dos clientes que efetivamente recompraram.
+- O Reino Unido concentra aproximadamente 84,6% da receita da base comercial.
+- Clientes de alto valor e clientes inativos exigem estratégias distintas: retenção e relacionamento para VIPs; reativação seletiva para inativos.
+
+## Machine Learning
+
+### Segmentação de clientes
+
+As variáveis RFM — recência, frequência e valor monetário — foram transformadas com `log1p` e padronizadas antes do K-Means. Os clusters foram interpretados e convertidos em quatro perfis comerciais acionáveis.
+
+### Previsão de recompra
+
+O problema supervisionado estima se um cliente voltará a comprar em uma janela futura de 30 dias. Foram comparados baseline da classe majoritária, regressão logística e Random Forest. As probabilidades do modelo final são apresentadas como propensão alta, média ou baixa para apoiar a priorização comercial.
+
+### Modeling Decisions
+
+Também foram testadas previsões de faturamento diário e semanal com Random Forest, HistGradientBoosting e regressão linear. Esses modelos não superaram uma baseline sazonal simples.
+
+Em vez de forçar um modelo inadequado, o problema foi reformulado como previsão de recompra. A decisão preserva um resultado negativo relevante e demonstra avaliação crítica: a escolha do modelo e do problema foi orientada pelo desempenho observado, não pela complexidade do algoritmo.
 
 ## Fluxo do projeto
 
 ```mermaid
 flowchart LR
-    A[Online Retail — UCI] --> B[Entendimento dos dados]
-    B --> C[Preparação da base comercial]
-    C --> D[Análise de negócio]
-    C --> E[Atributos RFM]
-    E --> F[Segmentação por regras]
-    E --> G[Clustering com K-Means]
-    C --> H[Alvo de recompra em 30 dias]
-    H --> I[Regressão logística]
-    H --> J[Random Forest]
-    D --> K[Dashboard Streamlit]
-    G --> K
-    J --> K
+    A[Raw Transactions] --> B[Data Cleaning]
+    B --> C[Commercial Analysis]
+    C --> D[RFM Analysis]
+    D --> E[K-Means Customer Segmentation]
+    D --> F[Repurchase Prediction]
+    E --> G[Streamlit Dashboard]
+    F --> G
 ```
 
-## Análise comercial
-
-A preparação separa as vendas comerciais dos cancelamentos, movimentações internas de estoque, movimentações sem valor financeiro e ajustes contábeis. Registros completamente idênticos são inspecionados antes de serem tratados como duplicações técnicas.
-
-O dashboard apresenta faturamento total, pedidos únicos, clientes identificados, produtos únicos, ticket médio, evolução mensal da receita, rankings de produtos e faturamento por país.
-
-## Segmentação RFM e K-Means
-
-A análise RFM transforma a tabela de transações em uma base com uma linha por cliente:
-
-- **Recency (recência):** quantidade de dias desde a última compra;
-- **Frequency (frequência):** número de pedidos únicos;
-- **Monetary (valor monetário):** faturamento total do cliente.
-
-O projeto compara regras de negócio interpretáveis com a segmentação por K-Means. Antes da etapa final de clustering, as variáveis RFM assimétricas são transformadas com `log1p` e padronizadas.
-
-| Segmento | Clientes | Participação aproximada na receita |
-|---|---:|---:|
-| Alto valor / VIP | 713 | 64,89% |
-| Regulares / Intermediários | 1.166 | 23,64% |
-| Inativos / Perdidos | 1.622 | 6,22% |
-| Recentes / Baixo engajamento | 837 | 5,25% |
-
-## Propensão de recompra
-
-Uma janela futura de 30 dias é utilizada para identificar se cada cliente histórico realizou uma nova compra. A base de atributos inclui recência, frequência, valor monetário, ticket médio, quantidade de produtos distintos e tempo de relacionamento.
-
-Modelos comparados:
-
-- baseline da classe majoritária;
-- regressão logística com padronização e pesos balanceados;
-- Random Forest com pesos balanceados.
-
-Resultados da Random Forest no conjunto de teste:
-
-| Métrica | Resultado |
-|---|---:|
-| Acurácia | ~71,1% |
-| Precisão | ~56,6% |
-| Recall | ~63,4% |
-| F1-score | ~59,8% |
-| ROC-AUC | ~74,5% |
-
-As probabilidades são convertidas nas faixas de propensão **Alta**, **Média** e **Baixa** para auxiliar na priorização da carteira. Essas pontuações são sinais de apoio à decisão, não garantias de compras futuras.
-
-## Tecnologias utilizadas
-
-- Python
-- pandas e NumPy
-- Matplotlib
-- scikit-learn
-- joblib
-- Jupyter Notebook
-- Streamlit
-
-## Estrutura do repositório
+## Project Structure
 
 ```text
 retail-intelligence-ml/
@@ -109,6 +98,9 @@ retail-intelligence-ml/
 │   ├── vendas_limpas.csv.gz
 │   ├── segmentacao_clientes.csv
 │   └── resultado_propensao.csv
+├── docs/
+│   └── images/
+│       └── README.md
 ├── models/
 │   ├── modelo_recompra_rf.pkl
 │   └── features_recompra.pkl
@@ -118,84 +110,78 @@ retail-intelligence-ml/
 ├── app.py
 ├── requirements.txt
 ├── requirements-notebooks.txt
-├── .gitignore
 └── README.md
 ```
 
-O arquivo Excel original e o CSV intermediário descomprimido não são versionados. A aplicação Streamlit utiliza o arquivo equivalente `vendas_limpas.csv.gz`, reduzindo o tamanho do repositório e o tempo necessário para o deploy.
+- `notebooks/01_entendimento_dados.ipynb`: entendimento, qualidade e preparação da base comercial.
+- `notebooks/03_previsao_recompra.ipynb`: RFM, clustering, experimentos de previsão e modelo de recompra.
+- `app.py`: aplicação Streamlit que consome dados e resultados previamente preparados.
+- `models/`: modelo final e lista de atributos usados na previsão.
 
-## Dataset
-
-O projeto utiliza o dataset público [Online Retail, do UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/352/online-retail), criado por Daqing Chen. A base contém transações de um varejista online britânico entre dezembro de 2010 e dezembro de 2011.
-
-> Chen, D. (2015). *Online Retail* [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C5BW33
-
-A página do UCI disponibiliza o dataset sob a licença Creative Commons Attribution 4.0.
-
-## Execução local
-
-### 1. Clone o repositório
+## Installation
 
 ```bash
 git clone https://github.com/AnandaFigueiredo/retail-intelligence-ml.git
 cd retail-intelligence-ml
-```
-
-### 2. Crie e ative um ambiente virtual
-
-```bash
 python -m venv .venv
 ```
 
-Windows PowerShell:
+Ative o ambiente virtual:
 
 ```powershell
+# Windows PowerShell
 .\.venv\Scripts\Activate.ps1
 ```
 
-macOS ou Linux:
-
 ```bash
+# macOS ou Linux
 source .venv/bin/activate
 ```
 
-### 3. Instale as dependências
-
-Para executar o dashboard em produção:
+Instale e execute o dashboard:
 
 ```bash
 python -m pip install -r requirements.txt
+streamlit run app.py
 ```
 
-Para trabalhar também com os notebooks:
+Para executar também os notebooks:
 
 ```bash
 python -m pip install -r requirements-notebooks.txt
 ```
 
-### 4. Inicie o dashboard
+## Dataset
 
-```bash
-streamlit run app.py
-```
+O projeto utiliza o [Online Retail — UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/352/online-retail), com transações de um varejista online britânico entre dezembro de 2010 e dezembro de 2011.
 
-## Aplicação publicada
+> Chen, D. (2015). *Online Retail* [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C5BW33
 
-O dashboard está disponível publicamente no Streamlit Community Cloud:
+O Excel original não é versionado. O dashboard utiliza uma base comercial comprimida e os resultados derivados necessários ao funcionamento da aplicação.
 
-**[Abrir o Retail Intelligence ML](https://retail-intelligence-ml-jjpxjfr9mwegrcrxjvc3bq.streamlit.app/)**
+## What I Learned
 
-O deploy utiliza a branch `main` deste repositório e o arquivo `app.py` como ponto de entrada. A aplicação não utiliza secrets.
+- Uma baseline simples é indispensável para saber se a complexidade adicional realmente gera valor.
+- A separação temporal entre atributos e alvo ajuda a prevenir data leakage.
+- Accuracy isolada é insuficiente em classes desbalanceadas; recall, precision, F1-score e ROC-AUC oferecem uma avaliação mais completa.
+- Clusters precisam ser interpretados no contexto do negócio para se tornarem segmentos úteis.
+- Um modelo só se torna utilizável quando seus resultados são traduzidos em uma interface clara e acionável.
 
-## Limitações
+## Limitations
 
-- Os dados abrangem aproximadamente um ano, limitando a avaliação da sazonalidade anual e previsões de longo prazo.
-- Os rótulos de recompra dependem de uma única janela futura de 30 dias.
-- A divisão de clientes é estratificada, mas não utiliza backtesting temporal repetido.
-- A fonte não contém promoções, disponibilidade de estoque, canais de aquisição, margens ou custos de campanha.
-- Os segmentos e thresholds de propensão exigem validação de negócio antes do uso operacional.
-- O dashboard utiliza resultados previamente calculados e não retreina os modelos durante a execução.
+- A base cobre aproximadamente um ano, o que limita a análise de sazonalidade anual e previsões de longo prazo.
+- O alvo de recompra utiliza uma única janela futura de 30 dias.
+- A avaliação não inclui backtesting temporal repetido.
+- O dataset não contém promoções, estoque, margens, custos de campanha ou canais de aquisição.
+- Segmentos e faixas de propensão precisam de validação antes de qualquer uso operacional.
+- O dashboard apresenta resultados previamente calculados e não retreina os modelos durante a execução.
 
 ## Uso responsável
 
-Este repositório demonstra técnicas de Ciência de Dados e Machine Learning com dados públicos. Ele não deve ser tratado como um sistema de decisão em produção sem validação, monitoramento, controles de privacidade, avaliação de vieses e adaptação ao contexto operacional real da organização.
+Este é um projeto demonstrativo com dados públicos. Um uso em produção exigiria validação no contexto real, monitoramento, governança, controles de privacidade e avaliação contínua de desempenho e vieses.
+
+## Links
+
+- [Aplicação Streamlit](https://retail-intelligence-ml-jjpxjfr9mwegrcrxjvc3bq.streamlit.app/)
+- [Dataset Online Retail — UCI](https://archive.ics.uci.edu/dataset/352/online-retail)
+- [Código-fonte no GitHub](https://github.com/AnandaFigueiredo/retail-intelligence-ml)
