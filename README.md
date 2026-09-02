@@ -1,105 +1,105 @@
 # Retail Intelligence ML
 
-An end-to-end portfolio project that turns public retail transactions into commercial insights, customer segments, and repurchase propensity scores. The repository combines exploratory data analysis, business-oriented data preparation, RFM analysis, unsupervised learning, supervised learning, and an interactive Streamlit dashboard.
+Projeto de portfólio end-to-end que transforma transações públicas de varejo em análises comerciais, segmentos de clientes e probabilidades de recompra. O repositório combina análise exploratória de dados, preparação orientada ao negócio, análise RFM, aprendizado não supervisionado, aprendizado supervisionado e um dashboard interativo desenvolvido com Streamlit.
 
-> This is a demonstration project built with public data. Production models require adaptation to each organization's data, processes, objectives, costs, and governance requirements.
+> Este é um projeto demonstrativo construído com dados públicos. Modelos utilizados em produção exigem adaptação aos dados, processos, objetivos, custos e requisitos de governança de cada organização.
 
-## Dashboard preview
+## Prévia do dashboard
 
-The deployed application presents three views:
+A aplicação apresenta três áreas:
 
-1. **Commercial overview** — revenue, orders, customers, products, average order value, monthly revenue, product rankings, and country performance.
-2. **Customer segmentation** — K-Means profiles, revenue contribution, average RFM behavior, and customer-level filters.
-3. **Repurchase propensity** — Random Forest metrics, probability tiers, customer prioritization, and detailed result tables.
+1. **Visão geral comercial** — faturamento, pedidos, clientes, produtos, ticket médio, evolução mensal da receita, rankings de produtos e desempenho por país.
+2. **Segmentação de clientes** — perfis do K-Means, participação na receita, comportamento RFM médio e filtros por cliente.
+3. **Propensão de recompra** — métricas da Random Forest, faixas de probabilidade, priorização de clientes e tabelas detalhadas.
 
-<!-- Add a screenshot after deployment, for example: docs/images/dashboard-overview.png -->
+<!-- Após o deploy, adicione uma captura de tela, por exemplo: docs/images/dashboard-overview.png -->
 
-## Key capabilities
+## Principais funcionalidades
 
-- Diagnoses missing values, duplicates, cancellations, negative quantities, zero prices, stock movements, and accounting adjustments.
-- Produces a clean commercial sales table without silently discarding ambiguous records.
-- Calculates revenue, order volume, customer volume, product volume, and average order value.
-- Analyzes monthly performance, products, countries, weekdays, and transaction hours.
-- Builds RFM features and business-rule customer segments.
-- Applies K-Means clustering after logarithmic transformation and standardization.
-- Frames repurchase as a supervised 30-day classification problem.
-- Compares a majority-class baseline, logistic regression, and Random Forest.
-- Exports prepared datasets and model artifacts for reuse by the dashboard.
+- Diagnóstico de valores ausentes, duplicatas, cancelamentos, quantidades negativas, preços zerados, movimentações de estoque e ajustes contábeis.
+- Criação de uma base comercial limpa sem descartar silenciosamente registros ambíguos.
+- Cálculo de faturamento, quantidade de pedidos, clientes, produtos e ticket médio.
+- Análises mensais, por produto, país, dia da semana e horário.
+- Construção de atributos RFM e segmentos definidos por regras de negócio.
+- Aplicação do K-Means após transformação logarítmica e padronização.
+- Formulação da recompra como um problema de classificação supervisionada em uma janela de 30 dias.
+- Comparação entre baseline da classe majoritária, regressão logística e Random Forest.
+- Exportação de bases preparadas e artefatos dos modelos para reutilização pelo dashboard.
 
-## Project flow
+## Fluxo do projeto
 
 ```mermaid
 flowchart LR
-    A[UCI Online Retail] --> B[Data understanding]
-    B --> C[Commercial data preparation]
-    C --> D[Business analysis]
-    C --> E[RFM features]
-    E --> F[Rule-based segmentation]
-    E --> G[K-Means clustering]
-    C --> H[30-day repurchase target]
-    H --> I[Logistic Regression]
+    A[Online Retail — UCI] --> B[Entendimento dos dados]
+    B --> C[Preparação da base comercial]
+    C --> D[Análise de negócio]
+    C --> E[Atributos RFM]
+    E --> F[Segmentação por regras]
+    E --> G[Clustering com K-Means]
+    C --> H[Alvo de recompra em 30 dias]
+    H --> I[Regressão logística]
     H --> J[Random Forest]
-    D --> K[Streamlit dashboard]
+    D --> K[Dashboard Streamlit]
     G --> K
     J --> K
 ```
 
-## Commercial analysis
+## Análise comercial
 
-The preparation stage separates commercial sales from cancellations, internal stock movements, zero-value movements, and accounting adjustments. Fully identical records are inspected before being treated as technical duplicates.
+A preparação separa as vendas comerciais dos cancelamentos, movimentações internas de estoque, movimentações sem valor financeiro e ajustes contábeis. Registros completamente idênticos são inspecionados antes de serem tratados como duplicações técnicas.
 
-The dashboard includes total revenue, unique orders, identified customers, unique products, average order value, monthly revenue evolution, product rankings, and revenue by country.
+O dashboard apresenta faturamento total, pedidos únicos, clientes identificados, produtos únicos, ticket médio, evolução mensal da receita, rankings de produtos e faturamento por país.
 
-## RFM and K-Means segmentation
+## Segmentação RFM e K-Means
 
-RFM converts the transaction table into one row per customer:
+A análise RFM transforma a tabela de transações em uma base com uma linha por cliente:
 
-- **Recency:** days since the latest purchase;
-- **Frequency:** number of unique orders;
-- **Monetary:** total customer revenue.
+- **Recency (recência):** quantidade de dias desde a última compra;
+- **Frequency (frequência):** número de pedidos únicos;
+- **Monetary (valor monetário):** faturamento total do cliente.
 
-The project compares interpretable business rules with K-Means clustering. Before the final clustering step, skewed RFM variables are transformed with `log1p` and standardized.
+O projeto compara regras de negócio interpretáveis com a segmentação por K-Means. Antes da etapa final de clustering, as variáveis RFM assimétricas são transformadas com `log1p` e padronizadas.
 
-| Segment | Customers | Approx. revenue share |
+| Segmento | Clientes | Participação aproximada na receita |
 |---|---:|---:|
-| High value / VIP | 713 | 64.89% |
-| Regular / Intermediate | 1,166 | 23.64% |
-| Inactive / Lost | 1,622 | 6.22% |
-| Recent / Low engagement | 837 | 5.25% |
+| Alto valor / VIP | 713 | 64,89% |
+| Regulares / Intermediários | 1.166 | 23,64% |
+| Inativos / Perdidos | 1.622 | 6,22% |
+| Recentes / Baixo engajamento | 837 | 5,25% |
 
-## Repurchase propensity
+## Propensão de recompra
 
-A 30-day holdout window is used to label whether each historical customer purchased again. The feature table includes recency, frequency, monetary value, average order value, distinct products, and customer tenure.
+Uma janela futura de 30 dias é utilizada para identificar se cada cliente histórico realizou uma nova compra. A base de atributos inclui recência, frequência, valor monetário, ticket médio, quantidade de produtos distintos e tempo de relacionamento.
 
-Models compared:
+Modelos comparados:
 
-- majority-class baseline;
-- logistic regression with feature scaling and balanced class weights;
-- Random Forest with balanced class weights.
+- baseline da classe majoritária;
+- regressão logística com padronização e pesos balanceados;
+- Random Forest com pesos balanceados.
 
-Random Forest test results:
+Resultados da Random Forest no conjunto de teste:
 
-| Metric | Result |
+| Métrica | Resultado |
 |---|---:|
-| Accuracy | ~71.1% |
-| Precision | ~56.6% |
-| Recall | ~63.4% |
-| F1-score | ~59.8% |
-| ROC-AUC | ~74.5% |
+| Acurácia | ~71,1% |
+| Precisão | ~56,6% |
+| Recall | ~63,4% |
+| F1-score | ~59,8% |
+| ROC-AUC | ~74,5% |
 
-The probabilities are converted into **High**, **Medium**, and **Low** propensity tiers for portfolio prioritization. These scores are decision-support signals, not guarantees of future purchases.
+As probabilidades são convertidas nas faixas de propensão **Alta**, **Média** e **Baixa** para auxiliar na priorização da carteira. Essas pontuações são sinais de apoio à decisão, não garantias de compras futuras.
 
-## Technology stack
+## Tecnologias utilizadas
 
 - Python
-- pandas and NumPy
+- pandas e NumPy
 - Matplotlib
 - scikit-learn
 - joblib
 - Jupyter Notebook
 - Streamlit
 
-## Repository structure
+## Estrutura do repositório
 
 ```text
 retail-intelligence-ml/
@@ -122,26 +122,26 @@ retail-intelligence-ml/
 └── README.md
 ```
 
-The original Excel file and the uncompressed intermediate sales CSV are intentionally excluded from Git. The Streamlit app reads the equivalent compressed `vendas_limpas.csv.gz` file to reduce repository size and deployment startup overhead.
+O arquivo Excel original e o CSV intermediário descomprimido não são versionados. A aplicação Streamlit utiliza o arquivo equivalente `vendas_limpas.csv.gz`, reduzindo o tamanho do repositório e o tempo necessário para o deploy.
 
 ## Dataset
 
-The project uses the public [Online Retail dataset from the UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/352/online-retail), created by Daqing Chen. It contains transactions from a UK-based non-store retailer between December 2010 and December 2011.
+O projeto utiliza o dataset público [Online Retail, do UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/352/online-retail), criado por Daqing Chen. A base contém transações de um varejista online britânico entre dezembro de 2010 e dezembro de 2011.
 
 > Chen, D. (2015). *Online Retail* [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C5BW33
 
-The UCI page lists the dataset under the Creative Commons Attribution 4.0 license.
+A página do UCI disponibiliza o dataset sob a licença Creative Commons Attribution 4.0.
 
-## Run locally
+## Execução local
 
-### 1. Clone the repository
+### 1. Clone o repositório
 
 ```bash
 git clone https://github.com/AnandaFigueiredo/retail-intelligence-ml.git
 cd retail-intelligence-ml
 ```
 
-### 2. Create and activate a virtual environment
+### 2. Crie e ative um ambiente virtual
 
 ```bash
 python -m venv .venv
@@ -153,49 +153,49 @@ Windows PowerShell:
 .\.venv\Scripts\Activate.ps1
 ```
 
-macOS or Linux:
+macOS ou Linux:
 
 ```bash
 source .venv/bin/activate
 ```
 
-### 3. Install dependencies
+### 3. Instale as dependências
 
-For the production dashboard:
+Para executar o dashboard em produção:
 
 ```bash
 python -m pip install -r requirements.txt
 ```
 
-For notebook development:
+Para trabalhar também com os notebooks:
 
 ```bash
 python -m pip install -r requirements-notebooks.txt
 ```
 
-### 4. Start the dashboard
+### 4. Inicie o dashboard
 
 ```bash
 streamlit run app.py
 ```
 
-## Deploy on Streamlit Community Cloud
+## Deploy no Streamlit Community Cloud
 
-1. Push the repository to GitHub.
-2. Open [Streamlit Community Cloud](https://share.streamlit.io/).
-3. Create an app from `AnandaFigueiredo/retail-intelligence-ml`.
-4. Select the `main` branch and set the entry point to `app.py`.
-5. Deploy. No application secrets are required.
+1. Envie o repositório para o GitHub.
+2. Acesse o [Streamlit Community Cloud](https://share.streamlit.io/).
+3. Crie uma aplicação a partir de `AnandaFigueiredo/retail-intelligence-ml`.
+4. Selecione a branch `main` e defina `app.py` como arquivo principal.
+5. Inicie o deploy. A aplicação não utiliza secrets.
 
-## Limitations
+## Limitações
 
-- The data covers approximately one year, limiting reliable annual seasonality and long-horizon forecasting.
-- Repurchase labels depend on a single 30-day observation window.
-- The customer split is stratified but not a repeated temporal backtest.
-- The source does not include promotions, inventory availability, acquisition channels, margins, or campaign costs.
-- Customer segmentation and propensity thresholds require business validation before operational use.
-- The dashboard uses precomputed results and does not retrain models at runtime.
+- Os dados abrangem aproximadamente um ano, limitando a avaliação da sazonalidade anual e previsões de longo prazo.
+- Os rótulos de recompra dependem de uma única janela futura de 30 dias.
+- A divisão de clientes é estratificada, mas não utiliza backtesting temporal repetido.
+- A fonte não contém promoções, disponibilidade de estoque, canais de aquisição, margens ou custos de campanha.
+- Os segmentos e thresholds de propensão exigem validação de negócio antes do uso operacional.
+- O dashboard utiliza resultados previamente calculados e não retreina os modelos durante a execução.
 
-## Responsible use
+## Uso responsável
 
-This repository demonstrates Data Science and Machine Learning techniques with public data. It must not be treated as a production decision system without validation, monitoring, privacy controls, bias assessment, and adaptation to the organization's real operating context.
+Este repositório demonstra técnicas de Ciência de Dados e Machine Learning com dados públicos. Ele não deve ser tratado como um sistema de decisão em produção sem validação, monitoramento, controles de privacidade, avaliação de vieses e adaptação ao contexto operacional real da organização.
