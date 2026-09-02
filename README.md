@@ -2,6 +2,8 @@
 
 Projeto de portfólio end-to-end que transforma transações públicas de varejo em análises comerciais, segmentos de clientes e probabilidades de recompra. O repositório combina análise exploratória de dados, preparação orientada ao negócio, análise RFM, aprendizado não supervisionado, aprendizado supervisionado e um dashboard interativo desenvolvido com Streamlit.
 
+**[Acesse a aplicação publicada no Streamlit](https://retail-intelligence-ml-jjpxjfr9mwegrcrxjvc3bq.streamlit.app/)**
+
 > Este é um projeto demonstrativo construído com dados públicos. Modelos utilizados em produção exigem adaptação aos dados, processos, objetivos, custos e requisitos de governança de cada organização.
 
 ## Prévia do dashboard
@@ -11,8 +13,6 @@ A aplicação apresenta três áreas:
 1. **Visão geral comercial** — faturamento, pedidos, clientes, produtos, ticket médio, evolução mensal da receita, rankings de produtos e desempenho por país.
 2. **Segmentação de clientes** — perfis do K-Means, participação na receita, comportamento RFM médio e filtros por cliente.
 3. **Propensão de recompra** — métricas da Random Forest, faixas de probabilidade, priorização de clientes e tabelas detalhadas.
-
-<!-- Após o deploy, adicione uma captura de tela, por exemplo: docs/images/dashboard-overview.png -->
 
 ## Principais funcionalidades
 
@@ -179,13 +179,13 @@ python -m pip install -r requirements-notebooks.txt
 streamlit run app.py
 ```
 
-## Deploy no Streamlit Community Cloud
+## Aplicação publicada
 
-1. Envie o repositório para o GitHub.
-2. Acesse o [Streamlit Community Cloud](https://share.streamlit.io/).
-3. Crie uma aplicação a partir de `AnandaFigueiredo/retail-intelligence-ml`.
-4. Selecione a branch `main` e defina `app.py` como arquivo principal.
-5. Inicie o deploy. A aplicação não utiliza secrets.
+O dashboard está disponível publicamente no Streamlit Community Cloud:
+
+**[Abrir o Retail Intelligence ML](https://retail-intelligence-ml-jjpxjfr9mwegrcrxjvc3bq.streamlit.app/)**
+
+O deploy utiliza a branch `main` deste repositório e o arquivo `app.py` como ponto de entrada. A aplicação não utiliza secrets.
 
 ## Limitações
 
