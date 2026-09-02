@@ -1,0 +1,44 @@
+# Python environments
+.venv/
+venv/
+env/
+
+# Python cache and build artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+build/
+dist/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+# IDE and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Temporary files and logs
+*.tmp
+*.temp
+*.log
+*.bak
+*.swp
+~$*
+.matplotlib-cache/
+
+# Large local source/intermediate datasets
+/data/Online Retail.xlsx
+/data/vendas_limpas.csv
